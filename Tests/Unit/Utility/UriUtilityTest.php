@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netlogix\Nxpdfrendering\Tests\Unit\Utility;
 
+use PHPUnit\Framework\Attributes\Test;
 use Netlogix\Nxpdfrendering\Options\MiddlewareOptions;
 use Netlogix\Nxpdfrendering\Utility\UriUtility;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,9 +15,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class UriUtilityTest extends UnitTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function testIsPdfRenderingUriReturnTrueIfPageTypeIsSetCorrectly(): void
     {
         $middlewareOptionsMock = $this->getMockBuilder(MiddlewareOptions::class)
@@ -24,21 +23,19 @@ class UriUtilityTest extends UnitTestCase
             ->getMock();
 
         $middlewareOptionsMock
-            ->expects($this->any())
             ->method('get')
             ->with('pdfRenderingPageType')
             ->willReturn('1337');
 
         $pageArgumentsMock = $this->getMockBuilder(PageArguments::class)->disableOriginalConstructor()->getMock();
 
-        $pageArgumentsMock->expects($this->any())->method('getPageType')->willReturn('1337');
+        $pageArgumentsMock->method('getPageType')->willReturn('1337');
 
         $serverRequestMock = $this->getMockBuilder(ServerRequestInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $serverRequestMock
-            ->expects($this->any())
             ->method('getAttribute')
             ->with('routing')
             ->willReturn($pageArgumentsMock);
@@ -51,9 +48,7 @@ class UriUtilityTest extends UnitTestCase
         $this->assertTrue($uriUtility->isPdfRenderingUri($serverRequestMock));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testIsPdfRenderingUriReturnFalseIfPageTypeIsNotSetCorrectly(): void
     {
         $middlewareOptionsMock = $this->getMockBuilder(MiddlewareOptions::class)
@@ -61,21 +56,19 @@ class UriUtilityTest extends UnitTestCase
             ->getMock();
 
         $middlewareOptionsMock
-            ->expects($this->any())
             ->method('get')
             ->with('pdfRenderingPageType')
             ->willReturn('1337');
 
         $pageArgumentsMock = $this->getMockBuilder(PageArguments::class)->disableOriginalConstructor()->getMock();
 
-        $pageArgumentsMock->expects($this->any())->method('getPageType')->willReturn('1330');
+        $pageArgumentsMock->method('getPageType')->willReturn('1330');
 
         $serverRequestMock = $this->getMockBuilder(ServerRequestInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $serverRequestMock
-            ->expects($this->any())
             ->method('getAttribute')
             ->with('routing')
             ->willReturn($pageArgumentsMock);
@@ -88,9 +81,7 @@ class UriUtilityTest extends UnitTestCase
         $this->assertFalse($uriUtility->isPdfRenderingUri($serverRequestMock));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testGetInternalRenderingUriReturnsUriCorrectly(): void
     {
         $internalRenderingUri = 'https://www.foo.de/bar.pdf';
@@ -100,7 +91,6 @@ class UriUtilityTest extends UnitTestCase
             ->getMock();
 
         $middlewareOptionsMock
-            ->expects($this->any())
             ->method('get')
             ->with('printRenderingPageType')
             ->willReturn('1337');
@@ -110,7 +100,6 @@ class UriUtilityTest extends UnitTestCase
             ->getMock();
 
         $contentObjectRendererMock
-            ->expects($this->any())
             ->method('typoLink_URL')
             ->with([
                 'parameter' => 't3://page?uid=current&type=1337',
@@ -128,6 +117,6 @@ class UriUtilityTest extends UnitTestCase
         $result = $uriUtility->getInternalRenderingUri($serverRequestMock);
 
         $this->assertInstanceOf(UriInterface::class, $result);
-        $this->assertEquals($internalRenderingUri, $result->__toString());
+        $this->assertSame($internalRenderingUri, $result->__toString());
     }
 }
