@@ -1,0 +1,5 @@
+pdf_rendering < page
+pdf_rendering.typeNum = {$plugin.tx_nxpdfrendering.configuration.pdfRenderingPageType}
+
+print_rendering < page
+print_rendering.typeNum = {$plugin.tx_nxpdfrendering.configuration.printRenderingPageType}
