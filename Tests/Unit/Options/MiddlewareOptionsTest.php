@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netlogix\Nxpdfrendering\Tests\Unit\Options;
 
+use PHPUnit\Framework\Attributes\Test;
 use Netlogix\Nxpdfrendering\Exception\OptionNotFoundException;
 use Netlogix\Nxpdfrendering\Options\MiddlewareOptions;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
@@ -11,9 +12,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class MiddlewareOptionsTest extends UnitTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function testHasReturnsTrueIfOptionExists(): void
     {
         $extensionConfigurationMock = $this->getMockBuilder(ExtensionConfiguration::class)
@@ -21,7 +20,6 @@ class MiddlewareOptionsTest extends UnitTestCase
             ->getMock();
 
         $extensionConfigurationMock
-            ->expects($this->any())
             ->method('get')
             ->with('nxpdfrendering')
             ->willReturn([
@@ -32,24 +30,20 @@ class MiddlewareOptionsTest extends UnitTestCase
         $this->assertTrue($middlewareOptions->has('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testHasReturnsFalseIfOptionNotExists(): void
     {
         $extensionConfigurationMock = $this->getMockBuilder(ExtensionConfiguration::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $extensionConfigurationMock->expects($this->any())->method('get')->with('nxpdfrendering')->willReturn([]);
+        $extensionConfigurationMock->method('get')->with('nxpdfrendering')->willReturn([]);
 
         $middlewareOptions = new MiddlewareOptions($extensionConfigurationMock);
         $this->assertFalse($middlewareOptions->has('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testGetReturnsValueIfOptionExists(): void
     {
         $extensionConfigurationMock = $this->getMockBuilder(ExtensionConfiguration::class)
@@ -57,7 +51,6 @@ class MiddlewareOptionsTest extends UnitTestCase
             ->getMock();
 
         $extensionConfigurationMock
-            ->expects($this->any())
             ->method('get')
             ->with('nxpdfrendering')
             ->willReturn([
@@ -65,12 +58,10 @@ class MiddlewareOptionsTest extends UnitTestCase
             ]);
 
         $middlewareOptions = new MiddlewareOptions($extensionConfigurationMock);
-        $this->assertEquals('bar', $middlewareOptions->get('foo'));
+        $this->assertSame('bar', $middlewareOptions->get('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testGetPersistentHeadersReturnValues(): void
     {
         $extensionConfigurationMock = $this->getMockBuilder(ExtensionConfiguration::class)
@@ -78,7 +69,6 @@ class MiddlewareOptionsTest extends UnitTestCase
             ->getMock();
 
         $extensionConfigurationMock
-            ->expects($this->any())
             ->method('get')
             ->with('nxpdfrendering')
             ->willReturn([
@@ -86,12 +76,10 @@ class MiddlewareOptionsTest extends UnitTestCase
             ]);
 
         $middlewareOptions = new MiddlewareOptions($extensionConfigurationMock);
-        $this->assertEquals(['foo', 'bar'], $middlewareOptions->get('persistentHeaders'));
+        $this->assertSame(['foo', 'bar'], $middlewareOptions->get('persistentHeaders'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testGetThrowsOptionNotFoundExceptionIfOptionNotExists(): void
     {
         $this->expectException(OptionNotFoundException::class);
@@ -101,7 +89,6 @@ class MiddlewareOptionsTest extends UnitTestCase
             ->getMock();
 
         $extensionConfigurationMock
-            ->expects($this->any())
             ->method('get')
             ->with('nxpdfrendering')
             ->willReturn([
