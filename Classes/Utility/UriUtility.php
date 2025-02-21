@@ -12,8 +12,10 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class UriUtility
 {
-    public function __construct(protected MiddlewareOptions $middlewareOptions, protected ContentObjectRenderer $contentObjectRenderer)
-    {
+    public function __construct(
+        protected MiddlewareOptions $middlewareOptions,
+        protected ContentObjectRenderer $contentObjectRenderer
+    ) {
     }
 
     public function isPdfRenderingUri(ServerRequestInterface $request): bool
@@ -24,17 +26,16 @@ class UriUtility
 
     public function getInternalRenderingUri(ServerRequestInterface $request): UriInterface
     {
-        $url = $this->contentObjectRenderer->typoLink_URL([
-            'parameter' => sprintf(
-                't3://page?uid=%s&type=%s',
-                'current',
-                $this->middlewareOptions->get('printRenderingPageType'),
-            ),
-            'addQueryString' => true,
-            'useCacheHash' => true,
-            'forceAbsoluteUrl' => true,
-        ]);
+        $routing = $request->getAttribute('routing');
 
-        return new Uri($url);
+        $parameters = $routing->getArguments();
+        if (isset($parameters['cHash'])) {
+            unset($parameters['cHash']);
+        }
+        $parameters['type'] = $this->middlewareOptions->get('printRenderingPageType');
+
+        return $request->getAttribute('site')
+            ->getRouter()
+            ->generateUri($routing->getPageId(), $parameters);
     }
 }
