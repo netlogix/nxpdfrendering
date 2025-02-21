@@ -1,8 +1,8 @@
 {
   "name": "netlogix/nxpdfrendering",
   "description": "netlogix PDF Rendering",
-  "type": "typo3-cms-extension",
   "license": "MIT",
+  "type": "typo3-cms-extension",
   "require": {
     "ext-dom": "*",
     "ext-fileinfo": "*",
