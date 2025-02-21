@@ -8,7 +8,7 @@
     "ext-fileinfo": "*",
     "ext-libxml": "*",
     "netlogix/headless-chromium-factory": "^1.0",
-    "typo3/cms-core": "^12.4"
+    "typo3/cms-core": "^13.4"
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.45",
