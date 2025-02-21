@@ -27,7 +27,7 @@ class PdfRenderingMiddleware implements MiddlewareInterface
     ) {
         $this->browserFactory = new RemoteBrowserFactory(
             $this->middlewareOptions->get('remoteDebuggingHost'),
-            $this->middlewareOptions->get('remoteDebuggingPort'),
+            (int)$this->middlewareOptions->get('remoteDebuggingPort'),
         );
     }
 
