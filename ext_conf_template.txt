@@ -1,0 +1,32 @@
+# cat=configuration/; type=string; label=pdfRenderingPageType
+pdfRenderingPageType = 1638449674
+# cat=configuration/; type=string; label=printRenderingPageType
+printRenderingPageType = 1644444444
+
+# cat=configuration/; type=boolean; label=enablePdfRendering
+enablePdfRendering = 1
+
+# cat=configuration/; type=string; label=remoteDebuggingHost
+remoteDebuggingHost = chromium
+# cat=configuration/; type=int+; label=remoteDebuggingPort
+remoteDebuggingPort = 9222
+
+# cat=configuration/; type=string; label=persistentHeaders
+persistentHeaders = X-Cache-Tags,X-Cache-Ttl
+
+# cat=configuration/browserOptions; type=boolean; label=headless
+browserOptions.headless = 1
+# cat=configuration/browserOptions; type=boolean; label=ignoreCertificateErrors
+browserOptions.ignoreCertificateErrors = 1
+# cat=configuration/browserOptions; type=boolean; label=noSandbox
+browserOptions.noSandbox = 1
+
+# cat=configuration/; type=boolean; label=mergePdfAttachments
+mergePdfAttachments = 1
+
+# cat=configuration/pdfOptions; type=boolean; label=displayHeaderFooter
+pdfOptions.displayHeaderFooter = 0
+# cat=configuration/pdfOptions; type=boolean; label=printBackground
+pdfOptions.printBackground = 1
+# cat=configuration/pdfOptions; type=boolean; label=preferCSSPageSize
+pdfOptions.preferCSSPageSize = 1

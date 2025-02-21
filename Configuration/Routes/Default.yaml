@@ -1,0 +1,9 @@
+# You can simply include it in your site configuration:
+# imports:
+#  - { resource: "EXT:nxpdfrendering/Configuration/Routes/Default.yaml" }
+routeEnhancers:
+  PageTypeSuffix:
+    type: PageType
+    map:
+      '.print': 1644444444
+      '.pdf': 1638449674
