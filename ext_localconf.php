@@ -8,9 +8,9 @@ defined('TYPO3') || die();
 
 ExtensionManagementUtility::addTypoScriptConstants(
     'plugin.tx_nxpdfrendering.configuration.pdfRenderingPageType = ' .
-        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['nxpdfrendering']['pdfRenderingPageType'],
+    ($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['nxpdfrendering']['pdfRenderingPageType'] ?? '1638449674'),
 );
 ExtensionManagementUtility::addTypoScriptConstants(
     'plugin.tx_nxpdfrendering.configuration.printRenderingPageType = ' .
-        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['nxpdfrendering']['printRenderingPageType'],
+    ($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['nxpdfrendering']['printRenderingPageType'] ?? '1644444444'),
 );
