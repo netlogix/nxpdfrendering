@@ -6,6 +6,7 @@ namespace Netlogix\Nxpdfrendering\Middleware;
 
 use DOMDocument;
 use DOMXPath;
+use HeadlessChromium\Cookies\Cookie;
 use Netlogix\HeadlessChromiumFactory\RemoteBrowserFactory;
 use Netlogix\Nxpdfrendering\Exception\GhostscriptException;
 use Netlogix\Nxpdfrendering\Options\MiddlewareOptions;
@@ -15,6 +16,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 class PdfRenderingMiddleware implements MiddlewareInterface
 {
@@ -67,6 +69,19 @@ class PdfRenderingMiddleware implements MiddlewareInterface
 
         try {
             $page = $browser->createPage();
+
+            if (array_key_exists(FrontendUserAuthentication::getCookieName(), $request->getCookieParams())) {
+                $page->setCookies([
+                    new Cookie([
+                        'name' => FrontendUserAuthentication::getCookieName(),
+                        'value' => $request->getCookieParams()[FrontendUserAuthentication::getCookieName()],
+                        'domain' => $request->getUri()->getHost(),
+                        'path' => '/',
+                        'httpOnly' => true,
+                        'secure' => true,
+                    ])
+                ]);
+            }
 
             $page
                 ->navigate($this->uriUtility->getInternalRenderingUri($request)->__toString())
